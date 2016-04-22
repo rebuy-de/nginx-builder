@@ -1,11 +1,12 @@
-# nginx-builder [!(https://api.travis-ci.org/rebuy-de/nginx-builder.svg)](https://api.travis-ci.org/rebuy-de/nginx-builder.svg)
+# nginx-builder
+[![Build Status](https://api.travis-ci.org/rebuy-de/nginx-builder.svg)](https://travis-ci.org/rebuy-de/nginx-builder)
 
 Builds Nginx RPM with Lua support from mainline SRPM.
 
 ## build
 
-1. `./build.sh`
-2. grab RPM from `target/rpmbuild/RPMS`
+1. `./build.sh <CENTOS_VERSION>`
+2. grab RPM from `target/<CENTOS_VERSION>/rpmbuild/RPMS`
 
 ## bump version
 

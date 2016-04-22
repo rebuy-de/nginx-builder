@@ -1,19 +1,27 @@
 #!/bin/bash
 
+if [ $# -ne 1 ]
+then
+	print "USAGE: $0 <CENTOS_VERSION>"
+	exit 1
+fi
+
+OSMAJ=$1
+
 set -e -x
 
-yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-${OSMAJ}.noarch.rpm
 yum -y update && yum clean all
 yum -y install \
 	make openssl-devel pcre-devel readline-devel gcc-c++ lua lua-devel \
 	wget rpm-build perl-devel GeoIP-devel \
-	perl-ExtUtils-Embed libxslt-devel gd-devel
+	perl-ExtUtils-Embed libxslt-devel gd-devel which
 
-NGINX_VERSION="1.9.15-1.el6"
+NGINX_VERSION="1.9.15-1.el${OSMAJ}"
 NGX_DEVEL_KIT_VERSION="0.3.0rc1"
 NGX_LUA_VERSION="0.10.2"
 
-NGINX_SOURCE=http://nginx.org/packages/mainline/centos/6/SRPMS/nginx-${NGINX_VERSION}.ngx.src.rpm
+NGINX_SOURCE=http://nginx.org/packages/mainline/centos/${OSMAJ}/SRPMS/nginx-${NGINX_VERSION}.ngx.src.rpm
 NGX_DEVEL_KIT_SOURCE=https://github.com/simpl/ngx_devel_kit/archive/v${NGX_DEVEL_KIT_VERSION}.tar.gz
 NGX_LUA_SOURCE=https://github.com/openresty/lua-nginx-module/archive/v${NGX_LUA_VERSION}.tar.gz
 
