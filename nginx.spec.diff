@@ -1,0 +1,40 @@
+--- nginx.spec.original	2016-04-21 16:25:16.196478925 +0200
++++ nginx.spec.patched	2016-04-21 16:32:30.867620160 +0200
+@@ -62,18 +62,18 @@
+ # end of distribution specific definitions
+ 
+ %define main_version                 1.9.15
+-%define main_release                 1%{?dist}.ngx
++%define main_release                 1%{?dist}.rebuy
+ %define module_xslt_version          %{main_version}
+-%define module_xslt_release          1%{?dist}.ngx
++%define module_xslt_release          1%{?dist}.rebuy
+ %define module_geoip_version         %{main_version}
+-%define module_geoip_release         1%{?dist}.ngx
++%define module_geoip_release         1%{?dist}.rebuy
+ %define module_image_filter_version  %{main_version}
+-%define module_image_filter_release  1%{?dist}.ngx
++%define module_image_filter_release  1%{?dist}.rebuy
+ %define module_perl_version          %{main_version}
+-%define module_perl_release          1%{?dist}.ngx
++%define module_perl_release          1%{?dist}.rebuy
+ %define module_njs_shaid             1c50334fbea6
+ %define module_njs_version           0.0.20160414.%{module_njs_shaid}
+-%define module_njs_release           1%{?dist}.ngx
++%define module_njs_release           1%{?dist}.rebuy
+ 
+ %define bdir %{_builddir}/%{name}-%{main_version}
+ 
+@@ -121,9 +121,11 @@
+         --with-mail_ssl_module \
+         --with-file-aio \
+         --with-ipv6 \
++        --add-module=/nginx-lua/ngx_devel_kit-0.3.0rc1 \
++        --add-module=/nginx-lua/lua-nginx-module-0.10.2 \
+         %{?with_http2:--with-http_v2_module}")
+ 
+-Summary: High performance web server
++Summary: High performance web server (reBuy)
+ Name: nginx
+ Version: %{main_version}
+ Release: %{main_release}
