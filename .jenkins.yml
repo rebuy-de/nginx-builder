@@ -1,5 +1,0 @@
-shell_nginx-builder:
-  mailerRecipients:
-    - 'dl-scb-tech-platform@rebuy.de'
-  command:
-    - ./build.sh

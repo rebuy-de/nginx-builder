@@ -1,5 +1,4 @@
-nginx-builder
-=============
+# nginx-builder [!(https://api.travis-ci.org/rebuy-de/nginx-builder.svg)](https://api.travis-ci.org/rebuy-de/nginx-builder.svg)
 
 Builds Nginx RPM with Lua support from mainline SRPM.
 
