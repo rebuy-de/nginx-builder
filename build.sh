@@ -1,15 +1,18 @@
 #!/bin/bash
 
+OSMAJ=${1:-6}
+
 set -e -x
 
 container=$(\
 	docker run \
 	-d \
-	centos:6 \
+	centos:${OSMAJ} \
 	sleep infinity
 )
 
-mkdir -p target
+DST=target/centos_${OSMAJ}
+mkdir -p ${DST}
 
 docker exec ${container} mkdir -p /nginx-lua
 docker cp nginx.spec.diff ${container}:/nginx-lua/nginx.spec.diff
@@ -18,10 +21,10 @@ docker exec ${container} chmod +x /nginx-lua/run.sh
 
 set +x # When something fails, we still want to get the files for debugging.
 
-docker exec -i -t ${container} /nginx-lua/run.sh | tee target/run.log
+docker exec -i -t ${container} /nginx-lua/run.sh ${OSMAJ} | tee ${DST}/run.log
 
-docker cp ${container}:/root/rpmbuild target
-docker cp ${container}:/nginx-lua/nginx.spec.patched target/nginx.spec.patched
+docker cp ${container}:/root/rpmbuild ${DST}
+docker cp ${container}:/nginx-lua/nginx.spec.patched ${DST}/nginx.spec.patched
 
 docker kill ${container}
 docker rm ${container}
