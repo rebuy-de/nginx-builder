@@ -7,8 +7,12 @@ then
 fi
 
 OSMAJ=$1
+NGINX_REPO=http://nginx.org/packages/mainline/centos/$OSMAJ
 
 set -e -x
+
+###
+# update yum and install dependencies
 
 yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-${OSMAJ}.noarch.rpm
 yum -y update && yum clean all
@@ -17,18 +21,27 @@ yum -y install \
 	wget rpm-build perl-devel GeoIP-devel \
 	perl-ExtUtils-Embed libxslt-devel gd-devel which
 
-NGINX_VERSION="1.9.15-1.el${OSMAJ}"
+###
+# define some variables
+NGINX_VERSION=$(
+	wget -q -O - ${NGINX_REPO}/SRPMS/ \
+		| grep '^<a' \
+		| grep 'nginx' \
+		| sed -e 's/^.*<a[^>]\+>//' -e 's#.src.rpm</a>.*$##' \
+		| sort -V \
+		| tail -n 1
+)
 NGX_DEVEL_KIT_VERSION="0.3.0rc1"
 NGX_LUA_VERSION="0.10.2"
 
-NGINX_SOURCE=http://nginx.org/packages/mainline/centos/${OSMAJ}/SRPMS/nginx-${NGINX_VERSION}.ngx.src.rpm
+NGINX_SOURCE=${NGINX_REPO}/SRPMS/${NGINX_VERSION}.src.rpm
 NGX_DEVEL_KIT_SOURCE=https://github.com/simpl/ngx_devel_kit/archive/v${NGX_DEVEL_KIT_VERSION}.tar.gz
 NGX_LUA_SOURCE=https://github.com/openresty/lua-nginx-module/archive/v${NGX_LUA_VERSION}.tar.gz
 
 NGX_DEVEL_KIT_NAME=ngx_devel_kit-${NGX_DEVEL_KIT_VERSION}
 NGX_LUA_NAME=lua-nginx-module-${NGX_LUA_VERSION}
 
-NGINX_PKG=nginx-${NGINX_VERSION}.ngx.src.rpm
+NGINX_PKG=${NGINX_VERSION}.src.rpm
 NGX_DEVEL_KIT_PKG=${NGX_DEVEL_KIT_NAME}.tar.gz
 NGX_LUA_PKG=${NGX_DEVEL_KIT_PKG}.tar.gz
 
