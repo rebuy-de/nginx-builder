@@ -61,6 +61,6 @@ cp nginx.spec.original nginx.spec.patched
 patch --forward nginx.spec.patched < nginx.spec.diff
 cp nginx.spec.patched /root/rpmbuild/SPECS/nginx.spec
 
-rpmbuild -ba /root/rpmbuild/SPECS/nginx.spec
+rpmbuild -ba --define "dist .el${OSMAJ}" /root/rpmbuild/SPECS/nginx.spec
 
 cp -a /root/rpmbuild .
