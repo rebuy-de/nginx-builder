@@ -7,7 +7,7 @@ then
 fi
 
 OSMAJ=$1
-NGINX_REPO=http://nginx.org/packages/mainline/centos/$OSMAJ
+NGINX_REPO=http://nginx.org/packages/centos/$OSMAJ
 
 set -e -x
 
@@ -26,6 +26,7 @@ yum -y install \
 NGINX_VERSION=$(
 	wget -q -O - ${NGINX_REPO}/SRPMS/ \
 		| grep '^<a' \
+		| grep -v release \
 		| grep 'nginx' \
 		| sed -e 's/^.*<a[^>]\+>//' -e 's#.src.rpm</a>.*$##' \
 		| sort -V \
@@ -61,6 +62,6 @@ cp nginx.spec.original nginx.spec.patched
 patch --forward nginx.spec.patched < nginx.spec.diff
 cp nginx.spec.patched /root/rpmbuild/SPECS/nginx.spec
 
-rpmbuild -ba --define "dist .el${OSMAJ}" /root/rpmbuild/SPECS/nginx.spec
+rpmbuild -ba --define "dist .el${OSMAJ}.rebuy" /root/rpmbuild/SPECS/nginx.spec
 
 cp -a /root/rpmbuild .
