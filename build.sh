@@ -21,7 +21,7 @@ docker exec ${container} chmod +x /nginx-lua/run.sh
 
 set +x # When something fails, we still want to get the files for debugging.
 
-docker exec -i -t ${container} /nginx-lua/run.sh ${OSMAJ} | tee ${DST}/run.log
+docker exec -i ${container} /nginx-lua/run.sh ${OSMAJ} | tee ${DST}/run.log
 
 docker cp ${container}:/root/rpmbuild ${DST}
 docker cp ${container}:/nginx-lua/nginx.spec.patched ${DST}/nginx.spec.patched
