@@ -27,6 +27,7 @@ NGINX_VERSION=$(
 	wget -q -O - ${NGINX_REPO}/SRPMS/ \
 		| grep '^<a' \
 		| grep -v release \
+		| grep -v module \
 		| grep 'nginx' \
 		| sed -e 's/^.*<a[^>]\+>//' -e 's#.src.rpm</a>.*$##' \
 		| sort -V \
@@ -59,7 +60,8 @@ rpm -ivh ${NGINX_PKG}
 
 cp /root/rpmbuild/SPECS/nginx.spec nginx.spec.original
 cp nginx.spec.original nginx.spec.patched
-patch --forward nginx.spec.patched < nginx.spec.diff
+sed -i -- 's/^Summary: High performance web server$/Summary: High performance web server (reBuy)/g' nginx.spec.patched
+sed -i -- 's#^\(%define BASE_CONFIGURE_ARGS \$(echo ".\+\)")$#\1 --add-module=/nginx-lua/ngx_devel_kit-0.3.0rc1 --add-module=/nginx-lua/lua-nginx-module-0.10.2")#g' nginx.spec.patched
 cp nginx.spec.patched /root/rpmbuild/SPECS/nginx.spec
 
 rpmbuild -ba --define "dist .el${OSMAJ}.rebuy" /root/rpmbuild/SPECS/nginx.spec
