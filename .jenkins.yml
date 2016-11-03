@@ -1,6 +1,6 @@
 shell_nginx-builder:
   mailerRecipients:
-    - 'dl-scb-tech-platform@rebuy.de'
+    - 'dl-scb-tech-platform@rebuy.com'
   command:
     - ./build.sh 6
     - ./build.sh 7

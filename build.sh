@@ -15,7 +15,6 @@ DST=target/centos_${OSMAJ}
 mkdir -p ${DST}
 
 docker exec ${container} mkdir -p /nginx-lua
-docker cp nginx.spec.diff ${container}:/nginx-lua/nginx.spec.diff
 docker cp run.sh ${container}:/nginx-lua/run.sh
 docker exec ${container} chmod +x /nginx-lua/run.sh
 
